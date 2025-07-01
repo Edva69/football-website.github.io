@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Knowledge</title>
+    <style>
+        /* Body and Background */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #e0ffe0;
+            min-height: 100vh;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(90deg, #00ff99 0%, #003300 100%);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px #00ff99;
+        }
+        
+        .navbar li {
+            float: left;
+        }
+        
+        .navbar li a {
+            display: block;
+            color: #003300;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .navbar li a:hover:not(.active) {
+            background: #003300;
+            color: #00ff99;
+        }
+
+        .navbar .active {
+            background: #00c3ff;
+            color: #fff;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-top: 70px;
+            padding: 30px 24px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(120deg, #1a2a3a 0%, #233347 100%);
+            border-radius: 18px;
+            box-shadow: 0 0 20px #00ff99, 0 0 40px #003300 inset;
+        }
+
+        /* Header and Text Styles */
+        h1, h2, h3 {
+            color: #00ff99;
+            text-shadow: 0 0 10px #00ff99, 0 0 20px #003300;
+        }
+
+        p {
+            font-size: 1.15em;
+        }
+
+        /* Card Styles */
+        .card {
+            margin: 20px auto;
+            padding: 25px;
+            background: linear-gradient(145deg, rgba(46,139,87,0.2), rgba(26,92,26,0.3));
+            border-left: 5px solid #2e8b57;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <ul class="navbar">
+        <li><a class="active" href="home.html">Home</a></li>
+        <li><a href="table.html">Table</a></li>
+        <li><a href="website/Transfers.html">Transfers</a></li>
+        <li><a href="other.html">Other</a></li>
+    </ul>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="card">
+            <h1>Football Knowledge</h1> 
+            <p>This is a page where you can enhance your football knowledge!!</p>
+        </div>
+
+        <div class="card">
+            <h2>What is Football?</h2>
+            <p>Football (also called soccer in some countries) is a team sport where two teams of 11 players try to score goals by kicking a ball into the opposing team's net. The game is played on a field, and players can use any part of their body except their hands and arms (goalkeepers can use their hands inside their own penalty area). The team that scores the most goals by the end of the match wins. It's a fast-paced game that requires skill, teamwork, and strategy.</p>
+        </div>
+
+        <div class="card">
+            <h2>Rules</h2>
+
+            <h4>What is an offside?</h4>
+            <p>Offside Position: A player is in an offside position if they are in the opponent's half of the field and closer to the opponent's goal line than both the ball and the second-to-last opponent.</p>
+
+            <h4>Match Duration</h4>
+            <p>A standard soccer game lasts 90 minutes, split into two halves of 45 minutes each. There is usually extra time added by the referee for stoppages (injuries, substitutions). If a knockout game ends in a draw, it may go to extra time (two 15-minute halves) and then a penalty shootout if still tied.</p>
+
+            <h4>Starting and Restarting play</h4>
+            <p>The game begins with a kickoff at the center circle. Play is restarted with kickoffs after goals, throw-ins, goal kicks, corner kicks, free kicks, and drop balls.</p>
+
+            <h4>In and out of play Balls</h4>
+            <p>The ball is in play as long as it stays within the boundary lines. When the ball fully crosses the touchline (side boundary) or goal line (end boundary), it's out of play.When the ball crosses the touchline, the team not touching the ball last gets to throw it back into play using both hands over the head while keeping both feet on the ground. A goal kick is awarded to the defending team when the attacking team last touched the ball before it crossed the goal line (but didn't score). A corner kick is awarded to the attacking team when the defending team last touched the ball before it crossed their goal line.</p>
+
+            <h4>Fouls and misconduct</h4>
+            <p>Fouls happen when a player unfairly trips, pushes, or tackles an opponent. Serious fouls can result in a free kick or a penalty kick if inside the penalty area. The referee can issue: A yellow card as a warning. A red card for serious offenses, resulting in the player's ejection from the match.</p>
+
+            <h4>Free Kicks and Penalties</h4>
+            <p>Free kicks are awarded for fouls; they can be direct (can score directly) or indirect (another player must touch the ball first). A penalty kick is a direct free kick taken from 12 yards (11 meters) away from the goal after a foul inside the penalty box.</p>
+
+            <h4>Goalkeepers</h4>
+            <p>The goalkeeper is the only player allowed to use their hands, but only within their own penalty area (the box in front of the goal). Once the goalkeeper has control of the ball with their hands, opponents cannot challenge for it. The goalkeeper cannot pick up a ball deliberately kicked to them by a teammate (this is called a "back-pass" rule).</p>
+
+            <h4>Substitutions</h4>
+            <p>Teams can substitute players during stoppages in play. In most professional matches, teams can make up to 5 substitutions (varies depending on competition rules). Once a player is substituted out, they cannot return.</p>
+
+            <h4>Advantage</h4>
+            <p>When a foul occurs, the referee may let play continue if the team fouled retains a clear advantage (e.g., a breakaway). If no advantage occurs, the referee stops play and awards the free kick or penalty.</p>
+
+            <h4>Dropped ball</h4>
+            <p>When play is stopped for reasons other than fouls or ball out of play (like an injury), the referee restarts the game with a dropped ball. The ball is dropped at the spot where it was when play was stopped, and players must wait until it touches the ground before contesting it.</p>
+        </div>
+
+        <div class="card">
+            <h2>Game Tactics</h2>
+            
+            <h4>Formations</h4>
+            <p>Formations describe how players are positioned on the field. Common formations are described by numbers representing defenders, midfielders, and forwards. 4-4-2 — Four defenders, four midfielders, two forwards. Balanced for attack and defense. 4-3-3 — Four defenders, three midfielders, three forwards. More attacking focus. 3-5-2 — Three defenders, five midfielders (often with wing-backs), two forwards. Control midfield and width. 5-3-2 — Five defenders (including wing-backs), three midfielders, two forwards. Defensive stability. Each formation influences how the team defends, attacks, and controls the game.</p>
+
+            <h4>Player roles</h4>
+            <p>Each player has specific responsibilities depending on their position: Defenders: Stop the opposition's attacks, clear the ball, mark strikers. Fullbacks/Wingbacks: Defend wide areas, support attacks by overlapping on the wings. Midfielders: Link defense and attack, control possession, distribute passes. Forwards/Strikers: Score goals, press defenders, create chances. Some specialized roles: Playmaker: Creative midfielder who directs play. Sweeper: A defender who cleans up behind the main defensive line. Target Man: Forward who holds the ball up and brings others into play.</p>
+
+            <h4>Tactical aproaches</h4>
+            <p>Possession-Based Play Focus on controlling the ball and patiently building attacks (e.g., "tiki-taka" style). Counter-Attacking Sit back defensively, then quickly break forward when possession is won. High Press Aggressively pressure the opponent high up the field to force mistakes. Low Block Defend deep close to your goal, compact and hard to break down.</p>
+
+            <h4>In Game Adjustments</h4>
+            <p>Switching Formation: Changing formation mid-game depending on score or opponent's tactics. Substitutions: Bringing fresh players to change pace, strengthen defense, or boost attack. Marking: Assigning players to closely track dangerous opponents. Set-Piece Tactics: Organizing plays during free kicks, corners, and throw-ins to maximize scoring chances or defend.</p>
+
+            <h4>Team shape and Movement</h4>
+            <p>Maintaining team compactness and spacing to avoid gaps. Coordinated pressing and defensive lines. Fluid attacking runs and overlapping fullbacks to create width.</p>
+        </div>
+    </div>
+</body>
+</html>
