@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Filter Teams with Full Details</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #e0ffe0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        h2 {
+            color: #00ff99;
+            text-shadow: 0 0 10px #00ff99, 0 0 20px #003300;
+            margin-top: 80px;
+        }
+        #result {
+            margin-top: 60px;
+            border: 1px solid #00ff99;
+            padding: 20px 25px;
+            background: linear-gradient(120deg, #1a2a3a 0%, #233347 100%);
+            box-shadow: 0 0 20px #00ff99, 0 0 40px #003300 inset;
+            max-width: 900px;
+            border-radius: 16px;
+            color: #e0ffe0;
+        }
+        form#filterForm {
+            background: linear-gradient(120deg, #233347 0%, #1a2a3a 100%);
+            border-radius: 16px;
+            padding: 24px 30px 16px 30px;
+            box-shadow: 0 0 10px #00ff99, 0 0 20px #003300 inset;
+            max-width: 500px;
+            margin-bottom: 30px;
+            border: 1px solid #00ff99;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        input[type="checkbox"] {
+            accent-color: #00ff99;
+            transform: scale(1.2);
+            margin-right: 8px;
+        }
+        button {
+            background: linear-gradient(90deg, #00ff99 0%, #00c3ff 100%);
+            color: #003300;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 28px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00ff99, 0 0 20px #003300 inset;
+            transition: background 0.3s, color 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #00c3ff 0%, #00ff99 100%);
+            color: #fff;
+        }
+        .league-title {
+            margin-top: 30px;
+            font-size: 1.4em;
+            color: #00ff99;
+            text-shadow: 0 0 10px #00ff99, 0 0 20px #003300;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: linear-gradient(120deg, #233347 0%, #1a2a3a 100%);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #00ff99;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(90deg, #00ff99 0%, #003300 100%);
+            color: #003300;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #1a2a3a;
+        }
+        tr:nth-child(odd) {
+            background-color: #233347;
+        }
+        /* Navbar styling */
+        .horizontal-nav {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(90deg, #00ff99 0%, #003300 100%);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px #00ff99;
+        }
+        .horizontal-nav li {
+            float: left;
+        }
+        .horizontal-nav li a {
+            display: block;
+            color: #003300;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background 0.3s, color 0.3s;
+        }
+        .horizontal-nav li a:hover:not(.active) {
+            background: #003300;
+            color: #00ff99;
+        }
+        .horizontal-nav .active {
+            background: #00c3ff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <ul class="horizontal-nav">
+        <li><a href="Index.html">Home</a></li>
+        <li><a href="table.html">Table</a></li>
+        <li><a href="Transfers.html">Transfers</a></li>
+        <li><a href="other.html">Other</a></li>
+    </ul>
+    <h2>Select Leagues to Filter</h2>
+    <form id="filterForm">
+        <label><input type="checkbox" name="league" value="Premier League"> Premier League</label><br>
+        <label><input type="checkbox" name="league" value="Bundesliga"> Bundesliga</label><br>
+        <label><input type="checkbox" name="league" value="La Liga"> La Liga</label><br>
+        <label><input type="checkbox" name="league" value="Serie A"> Serie A</label><br>
+        <label><input type="checkbox" name="league" value="Ligue 1"> Ligue 1</label><br>
+        <label><input type="checkbox" name="league" value="Primeira Liga"> Primeira Liga</label><br>
+        <label><input type="checkbox" name="league" value="Eredivisie"> Eredivisie</label><br>
+        <label><input type="checkbox" name="league" value="Scottish Premiership"> Scottish Premiership</label><br>
+        <label><input type="checkbox" name="league" value="Pro League"> Pro League</label><br>
+        <label><input type="checkbox" name="league" value="Major League Soccer"> Major League Soccer</label><br>
+        <br>
+        <button type="button" onclick="filterSelection()">Submit</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        const premierLeagueTeams = [
+            {name: "Arsenal", homeGround: "Emirates Stadium", manager: "Mikel Arteta"},
+            {name: "Aston Villa", homeGround: "Villa Park", manager: "Unai Emery"},
+            {name: "Bournemouth", homeGround: "Vitality Stadium", manager: "Andoni Iraola"},
+            {name: "Brentford", homeGround: "Brentford Community Stadium", manager: "Thomas Frank"},
+            {name: "Brighton & Hove Albion", homeGround: "Amex Stadium", manager: "Roberto De Zerbi"},
+            {name: "Chelsea", homeGround: "Stamford Bridge", manager: "Mauricio Pochettino"},
+            {name: "Crystal Palace", homeGround: "Selhurst Park", manager: "Roy Hodgson"},
+            {name: "Everton", homeGround: "Goodison Park", manager: "Sean Dyche"},
+            {name: "Fulham", homeGround: "Craven Cottage", manager: "Marco Silva"},
+            {name: "Leeds United", homeGround: "Elland Road", manager: "Daniel Farke"},
+            {name: "Leicester City", homeGround: "King Power Stadium", manager: "Enzo Maresca"},
+            {name: "Liverpool", homeGround: "Anfield", manager: "Jürgen Klopp"},
+            {name: "Manchester City", homeGround: "Etihad Stadium", manager: "Pep Guardiola"},
+            {name: "Manchester United", homeGround: "Old Trafford", manager: "Erik ten Hag"},
+            {name: "Newcastle United", homeGround: "St James' Park", manager: "Eddie Howe"},
+            {name: "Nottingham Forest", homeGround: "The City Ground", manager: "Steve Cooper"},
+            {name: "Southampton", homeGround: "St Mary's Stadium", manager: "Rubén Sellés"},
+            {name: "Tottenham Hotspur", homeGround: "Tottenham Hotspur Stadium", manager: "Antonio Conte"},
+            {name: "West Ham United", homeGround: "London Stadium", manager: "David Moyes"},
+            {name: "Wolverhampton Wanderers", homeGround: "Molineux Stadium", manager: "Gary O'Neil"}
+        ];
+
+        const bundesligaTeams = [
+            {name: "Bayer Leverkusen", homeGround: "BayArena", manager: "Xabi Alonso"},
+            {name: "Bayern Munich", homeGround: "Allianz Arena", manager: "Thomas Tuchel"},
+            {name: "Borussia Dortmund", homeGround: "Signal Iduna Park", manager: "Edin Terzić"},
+            {name: "Borussia Mönchengladbach", homeGround: "Borussia-Park", manager: "Daniel Farke"},
+            {name: "Eintracht Frankfurt", homeGround: "Deutsche Bank Park", manager: "Oliver Glasner"},
+            {name: "Freiburg", homeGround: "Europa-Park Stadion", manager: "Christian Streich"},
+            {name: "Hoffenheim", homeGround: "PreZero Arena", manager: "André Breitenreiter"},
+            {name: "Mainz 05", homeGround: "MEWA Arena", manager: "Bo Svensson"},
+            {name: "RB Leipzig", homeGround: "Red Bull Arena", manager: "Marco Rose"},
+            {name: "Schalke 04", homeGround: "Veltins-Arena", manager: "Frank Kramer"},
+            {name: "Union Berlin", homeGround: "Stadion An der Alten Försterei", manager: "Urs Fischer"},
+            {name: "VfB Stuttgart", homeGround: "Mercedes-Benz Arena", manager: "Pellegrino Matarazzo"},
+            {name: "VfL Wolfsburg", homeGround: "Volkswagen Arena", manager: "Niko Kovač"},
+            {name: "Werder Bremen", homeGround: "Weser-Stadion", manager: "Ole Werner"},
+            {name: "Hertha Berlin", homeGround: "Olympiastadion", manager: "Sandro Schwarz"},
+            {name: "Augsburg", homeGround: "WWK Arena", manager: "Enrico Maaßen"},
+            {name: "Koln", homeGround: "RheinEnergieStadion", manager: "Steffen Baumgart"},
+            {name: "Furth", homeGround: "Sportpark Ronhof Thomas Sommer", manager: "Marc Schneider"}
+        ];
+
+        const laLigaTeams = [
+            {name: "Real Madrid", homeGround: "Santiago Bernabéu", manager: "Carlo Ancelotti"},
+            {name: "Barcelona", homeGround: "Camp Nou", manager: "Xavi Hernandez"},
+            {name: "Atletico Madrid", homeGround: "Wanda Metropolitano", manager: "Diego Simeone"},
+            {name: "Sevilla", homeGround: "Ramón Sánchez Pizjuán", manager: "José Luis Mendilibar"},
+            {name: "Villarreal", homeGround: "Estadio de la Cerámica", manager: "Quique Setién"},
+            {name: "Real Sociedad", homeGround: "Anoeta Stadium", manager: "Imanol Alguacil"},
+            {name: "Real Betis", homeGround: "Benito Villamarín", manager: "Manuel Pellegrini"},
+            {name: "Athletic Bilbao", homeGround: "San Mamés", manager: "Andoni Iraola"},
+            {name: "Celta Vigo", homeGround: "Estadio Balaídos", manager: "Carlos Carvalhal"},
+            {name: "Granada", homeGround: "Nuevo Los Cármenes", manager: "Rubén Torrecilla"},
+            {name: "Osasuna", homeGround: "El Sadar", manager: "Jagoba Arrasate"},
+            {name: "Getafe", homeGround: "Coliseum Alfonso Pérez", manager: "José Bordalás"},
+            {name: "Mallorca", homeGround: "Iberostar Stadium", manager: "Luis García"},
+            {name: "Rayo Vallecano", homeGround: "Campo de Fútbol de Vallecas", manager: "Andoni Iraola"},
+            {name: "Espanyol", homeGround: "RCDE Stadium", manager: "Luis García Plaza"},
+            {name: "Almería", homeGround: "Power Horse Stadium", manager: "Juan Manuel Pavón"},
+            {name: "Elche", homeGround: "Estadio Manuel Martínez Valero", manager: "Vicente Parras"},
+            {name: "Cadiz", homeGround: "Estadio Ramón de Carranza", manager: "Sergio González"},
+            {name: "Valladolid", homeGround: "José Zorrilla", manager: "Pablo Franco"},
+            {name: "Getafe", homeGround: "Coliseum Alfonso Pérez", manager: "José Bordalás"}
+        ];
+
+        const serieATeams = [
+            {name: "Juventus", homeGround: "Allianz Stadium", manager: "Massimiliano Allegri"},
+            {name: "Inter Milan", homeGround: "San Siro", manager: "Simone Inzaghi"},
+            {name: "AC Milan", homeGround: "San Siro", manager: "Stefano Pioli"},
+            {name: "Napoli", homeGround: "Stadio Diego Armando Maradona", manager: "Rudi Garcia"},
+            {name: "Roma", homeGround: "Stadio Olimpico", manager: "José Mourinho"},
+            {name: "Lazio", homeGround: "Stadio Olimpico", manager: "Maurizio Sarri"},
+            {name: "Atalanta", homeGround: "Gewiss Stadium", manager: "Gian Piero Gasperini"},
+            {name: "Fiorentina", homeGround: "Stadio Artemio Franchi", manager: "Vincenzo Italiano"},
+            {name: "Torino", homeGround: "Stadio Olimpico Grande Torino", manager: "Ivan Jurić"},
+            {name: "Sassuolo", homeGround: "Mapei Stadium", manager: "Roberto De Zerbi"},
+            {name: "Sampdoria", homeGround: "Stadio Luigi Ferraris", manager: "Dejan Stanković"},
+            {name: "Bologna", homeGround: "Stadio Renato Dall'Ara", manager: "Michele Thiago"},
+            {name: "Genoa", homeGround: "Stadio Luigi Ferraris", manager: "Alexander Blessin"},
+            {name: "Udinese", homeGround: "Dacia Arena", manager: "Andrea Sottil"},
+            {name: "Monza", homeGround: "Stadio Brianteo", manager: "Raffaele Palladino"},
+            {name: "Empoli", homeGround: "Stadio Carlo Castellani", manager: "Paolo Zanetti"},
+            {name: "Lecce", homeGround: "Stadio Via del Mare", manager: "Marco Baroni"},
+            {name: "Salernitana", homeGround: "Stadio Arechi", manager: "Domenico Di Carlo"},
+            {name: "Verona", homeGround: "Stadio Marc'Antonio Bentegodi", manager: "Gabriele Cioffi"},
+            {name: "Spezia", homeGround: "Stadio Alberto Picco", manager: "Thiago Motta"}
+        ];
+
+        const ligue1Teams = [
+            {name: "Paris Saint-Germain", homeGround: "Parc des Princes", manager: "Luis Enrique"},
+            {name: "Marseille", homeGround: "Stade Vélodrome", manager: "Jorge Sampaoli"},
+            {name: "Lyon", homeGround: "Groupama Stadium", manager: "Laurent Blanc"},
+            {name: "Monaco", homeGround: "Stade Louis II", manager: "Adolfo Gaich"},
+            {name: "Rennes", homeGround: "Roazhon Park", manager: "Bruno Génésio"},
+            {name: "Nice", homeGround: "Allianz Riviera", manager: "Lucien Favre"},
+            {name: "Lens", homeGround: "Stade Bollaert-Delelis", manager: "Franck Haise"},
+            {name: "Strasbourg", homeGround: "Stade de la Meinau", manager: "Thierry Laurey"},
+            {name: "Lille", homeGround: "Stade Pierre-Mauroy", manager: "Paulo Fonseca"},
+            {name: "Angers", homeGround: "Stade Raymond Kopa", manager: "Alexandre Dujeux"},
+            {name: "Bordeaux", homeGround: "Matmut Atlantique", manager: "David Guion"},
+            {name: "Nantes", homeGround: "Stade de la Beaujoire", manager: "Antoine Kombouaré"},
+            {name: "Reims", homeGround: "Stade Auguste-Delaune", manager: "Laurent Batlles"},
+            {name: "Metz", homeGround: "Stade Saint-Symphorien", manager: "Ludovic Magnin"},
+            {name: "Troyes", homeGround: "Stade de l'Aube", manager: "Patrick Kisnorbo"},
+            {name: "Clermont", homeGround: "Stade Gabriel-Montpied", manager: "Pascal Gastien"},
+            {name: "Auxerre", homeGround: "Stade de l'Abbé-Deschamps", manager: "Thierry Laurey"},
+            {name: "Lorient", homeGround: "Stade du Moustoir", manager: "Philippe Clement"}
+        ];
+
+        const primeiraLigaTeams = [
+            {name: "Benfica", homeGround: "Estádio da Luz", manager: "Roger Schmidt"},
+            {name: "Porto", homeGround: "Estádio do Dragão", manager: "Sérgio Conceição"},
+            {name: "Sporting CP", homeGround: "Estádio José Alvalade", manager: "Rúben Amorim"},
+            {name: "Braga", homeGround: "Estádio Municipal de Braga", manager: "Artur Jorge"},
+            {name: "Famalicão", homeGround: "Estádio Municipal de Famalicão", manager: "Ivo Vieira"},
+            {name: "Gil Vicente", homeGround: "Estádio Cidade de Barcelos", manager: "Ricardo Soares"},
+            {name: "Santa Clara", homeGround: "Estádio de São Miguel", manager: "Nélson Veríssimo"},
+            {name: "Marítimo", homeGround: "Estádio dos Barreiros", manager: "Nélson Vivas"},
+            {name: "Paços de Ferreira", homeGround: "Estádio da Mata Real", manager: "Filipe Martins"},
+            {name: "Moreirense", homeGround: "Parque Desportivo Comendador Joaquim de Almeida Freitas", manager: "Ricardo Sousa"},
+            {name: "Tondela", homeGround: "Estádio João Cardoso", manager: "Natasha Correia"},
+            {name: "Boavista", homeGround: "Estádio do Bessa", manager: "Petit"},
+            {name: "Estoril", homeGround: "Estádio António Coimbra da Mota", manager: "Bruno Pinheiro"},
+            {name: "Portimonense", homeGround: "Estádio Municipal de Portimão", manager: "Sérgio Conceição Jr."},
+            {name: "Vizela", homeGround: "Estádio do Futebol Clube de Vizela", manager: "Vítor Campelos"},
+            {name: "Casa Pia", homeGround: "Estádio Pina Manique", manager: "Rui Borges"},
+            {name: "Chaves", homeGround: "Estádio Municipal de Chaves", manager: "Vitor Campelos"},
+            {name: "Rio Ave", homeGround: "Estádio dos Arcos", manager: "Luís Freire"}
+        ];
+
+        const eredivisieTeams = [
+            {name: "Ajax", homeGround: "Johan Cruyff Arena", manager: "John Heitinga"},
+            {name: "PSV Eindhoven", homeGround: "Philips Stadion", manager: "Ruud van Nistelrooy"},
+            {name: "Feyenoord", homeGround: "De Kuip", manager: "Arne Slot"},
+            {name: "AZ Alkmaar", homeGround: "AFAS Stadion", manager: "Pascal Jansen"},
+            {name: "FC Utrecht", homeGround: "Stadion Galgenwaard", manager: "Henk Fraser"},
+            {name: "Vitesse", homeGround: "GelreDome", manager: "Thomas Letsch"},
+            {name: "Heerenveen", homeGround: "Abe Lenstra Stadion", manager: "Johnny Jansen"},
+            {name: "Groningen", homeGround: "Euroborg", manager: "Frank Wormuth"},
+            {name: "Sparta Rotterdam", homeGround: "Sparta Stadion Het Kasteel", manager: "Jordy Zuidam"},
+            {name: "Heracles Almelo", homeGround: "Erve Asito", manager: "John Lammers"},
+            {name: "Fortuna Sittard", homeGround: "Fortuna Sittard Stadion", manager: "Sjors Ultee"},
+            {name: "Willem II", homeGround: "Koninklijk Willem II Stadion", manager: "Kevin Hofland"},
+            {name: "PEC Zwolle", homeGround: "MAC³PARK Stadion", manager: "John Stegeman"},
+            {name: "Excelsior", homeGround: "Van Donge & De Roo Stadion", manager: "Marinus Dijkhuizen"},
+            {name: "Go Ahead Eagles", homeGround: "De Adelaarshorst", manager: "Kees van Wonderen"},
+            {name: "RKC Waalwijk", homeGround: "Mandemakers Stadion", manager: "Joseph Oosting"},
+            {name: "Cambuur", homeGround: "Cambuur Stadion", manager: "Johnny Jansen"},
+            {name: "FC Emmen", homeGround: "De Oude Meerdijk", manager: "Dick Lukkien"}
+        ];
+
+        const scottishPremiershipTeams = [
+            {name: "Celtic", homeGround: "Celtic Park", manager: "Ange Postecoglou"},
+            {name: "Rangers", homeGround: "Ibrox Stadium", manager: "Michael Beale"},
+            {name: "Aberdeen", homeGround: "Pittodrie Stadium", manager: "Barry Robson"},
+            {name: "Heart of Midlothian", homeGround: "Tynecastle Park", manager: "Steven Naismith"},
+            {name: "Hibernian", homeGround: "Easter Road", manager: "Lee Johnson"},
+            {name: "Motherwell", homeGround: "Fir Park", manager: "Steven Hammell"},
+            {name: "Ross County", homeGround: "Victoria Park", manager: "Malky Mackay"},
+            {name: "St Johnstone", homeGround: "McDiarmid Park", manager: "Steven MacLean"},
+            {name: "St Mirren", homeGround: "St Mirren Park", manager: "Stephen Robinson"},
+            {name: "Dundee United", homeGround: "Tannadice Park", manager: "Jim Goodwin"},
+            {name: "Livingston", homeGround: "Almondvale Stadium", manager: "David Martindale"},
+            {name: "Hibernian", homeGround: "Easter Road", manager: "Lee Johnson"}
+        ];
+
+        const proLeagueTeams = [
+            {name: "Club Brugge", homeGround: "Jan Breydel Stadium", manager: "Carl Hoefkens"},
+            {name: "RSC Anderlecht", homeGround: "Constant Vanden Stock Stadium", manager: "Davy Roef"},
+            {name: "Standard Liège", homeGround: "Stade Maurice Dufrasne", manager: "Ronny Deila"},
+            {name: "KAA Gent", homeGround: "Ghelamco Arena", manager: "Hein Vanhaezebrouck"},
+            {name: "KRC Genk", homeGround: "Cegeka Arena", manager: "Wouter Vrancken"},
+            {name: "Charleroi", homeGround: "Stade du Pays de Charleroi", manager: "Felice Mazzù"},
+            {name: "Sint-Truiden", homeGround: "Stayen", manager: "Peter Maes"},
+            {name: "Zulte Waregem", homeGround: "Elindus Arena", manager: "Timmy Simons"},
+            {name: "Mechelen", homeGround: "AFAS-stadion Achter de Kazerne", manager: "Steven Defour"},
+            {name: "Oostende", homeGround: "Versluys Arena", manager: "Dominique D'Onofrio"},
+            {name: "Cercle Brugge", homeGround: "Jan Breydel Stadium", manager: "Yves Vanderhaeghe"},
+            {name: "Kortrijk", homeGround: "Guldensporen Stadion", manager: "Sean Dyche"},
+            {name: "Waasland-Beveren", homeGround: "Sint-Niklaas", manager: "Marc Brys"},
+            {name: "Union Saint-Gilloise", homeGround: "Joseph Marien Stadium", manager: "Stijn Vreven"},
+            {name: "Virton", homeGround: "Stade Yvan Georges", manager: "Fabien Mercadal"},
+            {name: "Seraing", homeGround: "Stade du Pairay", manager: "Dominique D'Onofrio"}
+        ];
+
+        const mlsTeams = [
+            {name: "Atlanta United", homeGround: "Mercedes-Benz Stadium", manager: "Gonzalo Pineda"},
+            {name: "Austin FC", homeGround: "Q2 Stadium", manager: "Josh Wolff"},
+            {name: "CF Montréal", homeGround: "Stade Saputo", manager: "Wilfried Nancy"},
+            {name: "Charlotte FC", homeGround: "Bank of America Stadium", manager: "Christian Lattanzio"},
+            {name: "Chicago Fire", homeGround: "Soldier Field", manager: "erik ten hag"},
+            {name: "Colorado Rapids", homeGround: "Dick's Sporting Goods Park", manager: "Robin Fraser"},
+            {name: "Columbus Crew", homeGround: "Lower.com Field", manager: "Wilfried Nancy"},
+            {name: "D.C. United", homeGround: "Audi Field", manager: "Wayne Rooney"},
+            {name: "FC Cincinnati", homeGround: "TQL Stadium", manager: "Pat Noonan"},
+            {name: "FC Dallas", homeGround: "Toyota Stadium", manager: "Luchi Gonzalez"},
+            {name: "Houston Dynamo", homeGround: "PNC Stadium", manager: "Ben Olsen"},
+            {name: "Inter Miami", homeGround: "DRV PNK Stadium", manager: "Phil Neville"},
+            {name: "LA Galaxy", homeGround: "Dignity Health Sports Park", manager: "Greg Vanney"},
+            {name: "Los Angeles FC", homeGround: "Banc of California Stadium", manager: "Steve Cherundolo"},
+            {name: "Minnesota United", homeGround: "Allianz Field", manager: "Adrian Heath"},
+            {name: "Nashville SC", homeGround: "Geodis Park", manager: "Gary Smith"},
+            {name: "New England Revolution", homeGround: "Gillette Stadium", manager: "Bruce Arena"},
+            {name: "New York City FC", homeGround: "Yankee Stadium", manager: "Nick Cushing"},
+            {name: "New York Red Bulls", homeGround: "Red Bull Arena", manager: "Gerhard Struber"},
+            {name: "Orlando City", homeGround: "Exploria Stadium", manager: "Óscar Pareja"},
+            {name: "Philadelphia Union", homeGround: "Subaru Park", manager: "Jim Curtin"},
+            {name: "Portland Timbers", homeGround: "Providence Park", manager: "Giovanni Savarese"},
+            {name: "Real Salt Lake", homeGround: "Rio Tinto Stadium", manager: "Freddie Ljungberg"},
+            {name: "San Jose Earthquakes", homeGround: "PayPal Park", manager: "Luchi Gonzalez"},
+            {name: "Seattle Sounders", homeGround: "Lumen Field", manager: "Brian Schmetzer"},
+            {name: "Sporting Kansas City", homeGround: "Children's Mercy Park", manager: "Peter Vermes"},
+            {name: "St. Louis City SC", homeGround: "CityPark", manager: "Bradley Carnell"},
+            {name: "Toronto FC", homeGround: "BMO Field", manager: "Bob Bradley"},
+            {name: "Vancouver Whitecaps", homeGround: "BC Place", manager: "Ricardo Clark"}
+        ];
+
+        const leaguesData = {
+            "Premier League": premierLeagueTeams,
+            "Bundesliga": bundesligaTeams,
+            "La Liga": laLigaTeams,
+            "Serie A": serieATeams,
+            "Ligue 1": ligue1Teams,
+            "Primeira Liga": primeiraLigaTeams,
+            "Eredivisie": eredivisieTeams,
+            "Scottish Premiership": scottishPremiershipTeams,
+            "Pro League": proLeagueTeams,
+            "Major League Soccer": mlsTeams
+        };
+
+        function filterSelection() {
+            const selectedLeagues = Array.from(document.querySelectorAll('input[name="league"]:checked')).map(cb => cb.value);
+            const resultContainer = document.getElementById("result");
+            resultContainer.innerHTML = "";
+
+            if (selectedLeagues.length === 0) {
+                resultContainer.innerHTML = "<p>Please select at least one league.</p>";
+                return;
+            }
+
+            selectedLeagues.forEach(league => {
+                const teams = leaguesData[league];
+                if (!teams) return;
+                const leagueDiv = document.createElement("div");
+                leagueDiv.innerHTML = `<h3>${league}</h3>`;
+                teams.forEach(team => {
+                    const teamDiv = document.createElement("div");
+                    teamDiv.innerHTML = `<strong>${team.name}</strong> - Home Ground: ${team.homeGround}, Manager: ${team.manager}`;
+                    leagueDiv.appendChild(teamDiv);
+                });
+                resultContainer.appendChild(leagueDiv);
+            });
+        }
+    </script>
+</body>
+</html>
